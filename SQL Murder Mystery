@@ -1,0 +1,133 @@
+
+—CRIME SCENE REPORT—
+SELECT type, 
+	description,
+	city,
+	date
+FROM CRIME_SCENE_REPORT
+where date = 20180115 AND
+	TYPE = 'murder' AND
+	city = 'SQL City';
+
+
+
+—FIND WITNESSES—
+SELECT id,
+	name,
+	address_street_name,
+	MAX(address_number)
+FROM person
+WHERE address_street_name = 'Northwestern Dr';
+
+SELECT id,
+	name,
+	address_street_name
+FROM person
+WHERE name like 'Annabel%' AND
+	address_street_name = 'Franklin Ave’;
+
+
+—INTERVIEWS—
+SELECT name, 
+	interview.transcript,
+	interview.person_id
+FROM get_fit_now_member
+JOIN interview ON get_fit_now_member.person_id=interview.person_id
+WHERE name = 'Annabel Miller' OR name = 'Morty Schapiro’;
+
+
+—CONFIRM MORTY IS NOT A GET FIT MEMBER —
+SELECT person_id,name
+FROM get_fit_now_member
+WHERE name = 'Morty Schapiro’;
+
+
+—FIND MORTY VIA ID FROM PERSON & INTERVIEW—
+SELECT person_id,
+	transcript,
+	id,
+	name
+FROM person
+JOIN interview ON person.id=interview.person_id
+WHERE name = 'Morty Schapiro'
+GROUP BY person_id;
+
+
+—RESULTS OF ANNABEL’S INTERVIEW—
+SELECT check_in_date,
+	name,
+	membership_id,
+	id
+FROM get_fit_now_check_in ch
+JOIN get_fit_now_member me ON ch.membership_id=me.id
+WHERE check_in_date LIKE '%0109'; 
+
+
+—RESULTS OF MORTY’S INTERVIEW, find information based on gym—
+SELECT id,
+	person_id,
+	name,
+	membership_status
+FROM get_fit_now_member
+WHERE membership_status = 'gold'
+	AND id LIKE ‘48Z%';
+
+—CROSS REFERENCE GYM INFO TO person to find license id—
+SELECT id,
+	name,
+	license_id,
+	ssn
+FROM person
+WHERE id = 28819 OR id =67318;
+
+
+
+—USE LICENSE ID TO FIND PLATE NUMBER—
+ELECT person.id,
+	name,
+	license_id,
+	plate_number
+FROM person
+JOIN drivers_license ON person.license_id=drivers_license.id
+WHERE plate_number LIKE ‘%H42W%';
+
+
+
+—USE JEREMY’S ID TO FIND INTERVIEW—
+SELECT person_id, transcript
+FROM interview
+WHERE person_id = 67318;
+
+
+—USE JEREMY’S INTERVIEW TO FIND ID FROM LICENCE TABLE—
+SELECT id,
+	height,
+	hair_color,
+	gender,
+	car_make,
+	car_model
+FROM drivers_license
+WHERE hair_color = 'red' AND
+	car_make = 'Tesla'AND
+	gender = 'female' AND
+	height BETWEEN 65 AND 67;
+
+
+—USE license ID to join person & facebook checkin table —
+SELECT id,
+	name,
+	license_id,
+	ssn,
+	fb.person_id,
+	fb.event_name,
+	fb.date
+FROM person
+JOIN facebook_event_checkin fb ON person.id=fb.person_id
+WHERE license_id = '202298' or 
+	  license_id = '291182' or 
+	  license_id = '918773' AND
+	  fb.event_name = 'SQL Symphony Conert' AND
+	  fb.date LIKE '201712%';
+
+
+
