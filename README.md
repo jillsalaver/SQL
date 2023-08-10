@@ -4,7 +4,7 @@ These projects showcase my skills in data gathering, data exploration and data a
 
 [Data Visualizations](https://public.tableau.com/app/profile/jill.salaver) on Tableau Public
 
-[Resume](https://github.com/jillsalaver/SQL/blob/7428c95fb235fdcb93f344d7a4e09479b4e487eb/Resume%20-%20Jill%20Salaver.pdf) in PDF
+[Resume](Salaver_Jill_Resume.pdf) in PDF
 
 
 **Why Data?**
